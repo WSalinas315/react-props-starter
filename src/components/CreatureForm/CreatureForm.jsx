@@ -7,15 +7,11 @@ export default function CreatureForm({addNewCreature}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const newCreature ={
             name: newCreatureName,
             origin: newCreatureOrigin
         }
-
         addNewCreature(newCreature);
-
-
         setNewCreatureName('');
         setNewCreatureOrigin('');
     }
