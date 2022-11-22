@@ -2,13 +2,14 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from '../Header/Header';
 import CreatureList from '../CreatureList/CreatureList';
+import CreatureForm from '../CreatureForm/CreatureForm';
 import './App.css';
 
 function App () {
  
   const [creatureList, setCreatureList] = useState([]);
-  const [newCreatureName, setNewCreatureName] = useState('');
-  const [newCreatureOrigin, setNewCreatureOrigin] = useState('');
+  // const [newCreatureName, setNewCreatureName] = useState('');
+  // const [newCreatureOrigin, setNewCreatureOrigin] = useState('');
 
   // Function to get the creatures from the server/database
   const fetchCreatures = () => {
@@ -30,23 +31,19 @@ function App () {
   }
 
   // Function to add a new creature to the database
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const addCreature = (newCreature) => {
+    // event.preventDefault();
     axios({
       method: 'POST',
       url: '/creature',
-      data: {
-        name: newCreatureName,
-        origin: newCreatureOrigin
-      }
+      data: newCreature
     })
       .then( (response) => {
         console.log('Response:', response);
         fetchCreatures();
         //Clear Inputs & State
-        setNewCreatureName('');
-        setNewCreatureOrigin('')
+        // setNewCreatureName('');
+        // setNewCreatureOrigin('');
       })
       .catch(function (error) {
         console.log('Error on add:', error);
@@ -63,7 +60,8 @@ function App () {
     <div className="App">
       <Header text="Add Creature" />
       {/* <h2>Add Creature</h2> */}
-      <form onSubmit={handleSubmit}>
+      <CreatureForm addNewCreature={addCreature} />
+      {/* <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input 
           onChange={ (event) => setNewCreatureName(event.target.value) } 
@@ -74,7 +72,7 @@ function App () {
           onChange={ (event) => setNewCreatureOrigin(event.target.value) } 
           value={newCreatureOrigin}/>
         <button type="submit">Add New Creature</button>
-      </form>
+      </form> */}
       <Header text="All Creatures" />
       {/* <h2>All Creatures</h2> */}
       <CreatureList creatures={creatureList} />
